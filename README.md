@@ -1,2 +1,2 @@
 # todoApp
-This is the backend for my todo App
+This is the backend for my todo App using Django
