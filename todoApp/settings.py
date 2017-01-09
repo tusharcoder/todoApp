@@ -1,3 +1,12 @@
+# @Author: Tushar Agarwal(tusharcoder) <tushar>
+# @Date:   2017-01-09T22:34:30+05:30
+# @Email:  tamyworld@gmail.com
+# @Filename: settings.py
+# @Last modified by:   tushar
+# @Last modified time: 2017-01-09T22:36:30+05:30
+
+
+
 """
 Django settings for todoApp project.
 
@@ -36,6 +45,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'core'
 )
 
 MIDDLEWARE_CLASSES = (
