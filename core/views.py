@@ -3,7 +3,7 @@
 # @Email:  tamyworld@gmail.com
 # @Filename: views.py
 # @Last modified by:   tushar
-# @Last modified time: 2017-01-10T13:13:03+05:30
+# @Last modified time: 2017-01-10T13:15:51+05:30
 
 
 
@@ -49,7 +49,7 @@ class TaskList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CommentDetail(APIView):
+class TaskDetail(APIView):
     """Detail view for the comment"""
     def get_object(self, pk):
         try:
