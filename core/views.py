@@ -3,7 +3,7 @@
 # @Email:  tamyworld@gmail.com
 # @Filename: views.py
 # @Last modified by:   tushar
-# @Last modified time: 2017-01-10T13:15:51+05:30
+# @Last modified time: 2017-01-10T13:21:30+05:30
 
 
 
@@ -59,7 +59,7 @@ class TaskDetail(APIView):
 
     def get(self, request, pk, format=None):
         task = self.get_object(pk)
-        serializer = TaskSerializer(comment)
+        serializer = TaskSerializer(task)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
