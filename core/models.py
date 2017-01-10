@@ -3,7 +3,7 @@
 # @Email:  tamyworld@gmail.com
 # @Filename: models.py
 # @Last modified by:   tushar
-# @Last modified time: 2017-01-10T13:05:30+05:30
+# @Last modified time: 2017-01-10T13:19:23+05:30
 
 
 
@@ -14,3 +14,5 @@ class Task(models.Model):
     """Class for the model task"""
     title=models.CharField(max_length=150)
     description=models.CharField(max_length=500)
+    def __unicode__(self):
+        return self.title
