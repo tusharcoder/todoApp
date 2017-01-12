@@ -3,7 +3,7 @@
 # @Email:  tamyworld@gmail.com
 # @Filename: views.py
 # @Last modified by:   tushar
-# @Last modified time: 2017-01-10T13:24:10+05:30
+# @Last modified time: 2017-01-12T15:57:11+05:30
 
 
 
@@ -22,9 +22,15 @@ class TaskSerializer(serializers.Serializer):
     id=serializers.IntegerField(required=False)
     title = serializers.CharField(max_length=150)
     description = serializers.CharField(max_length=500)
+    priority=serializers.IntegerField(required=False)
     def create(self, validated_data):
         """Method to create the comment"""
+        from django.db.models import Max
         task=Task(**validated_data)
+        try:
+            task.priority=Task.objects.all().aggregate(Max('priority'))['priority__max']+1;
+        except:
+            task.priority=1;
         task.save()
         return task
     def update(self, instance, validated_data):
