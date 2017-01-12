@@ -3,7 +3,7 @@
 # @Email:  tamyworld@gmail.com
 # @Filename: views.py
 # @Last modified by:   tushar
-# @Last modified time: 2017-01-12T22:16:40+05:30
+# @Last modified time: 2017-01-12T22:28:22+05:30
 
 
 
@@ -50,10 +50,13 @@ class TaskSerializer(serializers.Serializer):
             else:
                 """handle if no model found of the target priority"""
                 relevent_task=self.getTargetPriorityTask(target_priority)
-                target_priority=relevent_task.priority
-                relevent_task.priority=instance.priority
-                relevent_task.save()
-                instance.priority=target_priority
+                if not relevent_task is None:
+                    target_priority=relevent_task.priority
+                    relevent_task.priority=instance.priority
+                    relevent_task.save()
+                    instance.priority=target_priority
+                else:
+                    instance.priority=1
         instance.save()
         return instance
     def getTargetPriorityTask(self,target_priority):
