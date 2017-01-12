@@ -3,7 +3,7 @@
 # @Email:  tamyworld@gmail.com
 # @Filename: views.py
 # @Last modified by:   tushar
-# @Last modified time: 2017-01-12T17:37:33+05:30
+# @Last modified time: 2017-01-12T22:16:40+05:30
 
 
 
@@ -37,14 +37,39 @@ class TaskSerializer(serializers.Serializer):
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
         target_priority=validated_data.get('priority',None)
-        task_with_given_priority = Task.objects.get(priority=target_priority) or None
-        if not task_with_given_priority is None:
-            """change the priority of the task"""
-            task_with_given_priority.priority=instance.priority
-            task_with_given_priority.save()
-            instance.priority=target_priority
+        if not target_priority is None:
+            try:
+                task_with_given_priority = Task.objects.get(priority=target_priority)
+            except Task.DoesNotExist:
+                task_with_given_priority=None
+            if not task_with_given_priority is None:
+                """change the priority of the task"""
+                task_with_given_priority.priority=instance.priority
+                task_with_given_priority.save()
+                instance.priority=target_priority
+            else:
+                """handle if no model found of the target priority"""
+                relevent_task=self.getTargetPriorityTask(target_priority)
+                target_priority=relevent_task.priority
+                relevent_task.priority=instance.priority
+                relevent_task.save()
+                instance.priority=target_priority
         instance.save()
         return instance
+    def getTargetPriorityTask(self,target_priority):
+        """get the relevent target priority Task"""
+        try:
+            task=Task.objects.get(priority=target_priority)
+        except Task.DoesNotExist:
+            task=None
+        if not task is None:
+            return task
+        else:
+            if not target_priority is 1:
+                return self.getTargetPriorityTask(target_priority-1)
+            else:
+                return None
+
 
 class TaskList(APIView):
     """List all comments ur create new"""
