@@ -1,0 +1,4 @@
+Django==1.9
+django-cors-headers==2.0.0
+djangorestframework==3.5.3
+Markdown==2.6.7
