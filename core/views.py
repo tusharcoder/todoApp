@@ -3,7 +3,7 @@
 # @Email:  tamyworld@gmail.com
 # @Filename: views.py
 # @Last modified by:   tushar
-# @Last modified time: 2017-01-12T15:57:11+05:30
+# @Last modified time: 2017-01-12T17:37:33+05:30
 
 
 
@@ -36,6 +36,13 @@ class TaskSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
+        target_priority=validated_data.get('priority',None)
+        task_with_given_priority = Task.objects.get(priority=target_priority) or None
+        if not task_with_given_priority is None:
+            """change the priority of the task"""
+            task_with_given_priority.priority=instance.priority
+            task_with_given_priority.save()
+            instance.priority=target_priority
         instance.save()
         return instance
 
@@ -43,7 +50,7 @@ class TaskList(APIView):
     """List all comments ur create new"""
 
     def get(self,request,format=None):
-        tasks=Task.objects.all()
+        tasks=Task.objects.order_by('priority')
         serializer=TaskSerializer(tasks, many=True)
         return Response(serializer.data)
 
